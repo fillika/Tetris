@@ -104,11 +104,8 @@ const createRandomFigure = {
   }
 };
 
-const move = {
-  init: function() {}
-};
-
 tetris.init();
+
 let body = createRandomFigure.init();
 
 moveFigure();
@@ -119,6 +116,8 @@ let interval = setInterval(() => {
 
 function moveFigure() {
   let moveFlag = true;
+
+  // Получаем координаты текущего местоположения фигуры (всех её частей)
   let coordinates = [
     [body[0].dataset.posX, body[0].dataset.posY],
     [body[1].dataset.posX, body[1].dataset.posY],
@@ -126,6 +125,8 @@ function moveFigure() {
     [body[3].dataset.posX, body[3].dataset.posY]
   ];
 
+  // Проверка, коснулись ли мы дна или коснулись другой фигуры
+  // Проверяя, есть ли класс Set
   for (let i = 0; i < coordinates.length; i++) {
     if (
       coordinates[i][1] == 1 ||
@@ -142,10 +143,12 @@ function moveFigure() {
   }
 
   if (moveFlag) {
+    // Удаляем визуально
     for (let i = 0; i < body.length; i++) {
       body[i].classList.remove("figure");
     }
 
+    // Присваиваем новые координаты по Y (как бы создаем иллюзию движения)
     body = [
       document.querySelector(
         `[data-pos-x="${coordinates[0][0]}"][data-pos-y="${coordinates[0][1] -
@@ -165,6 +168,7 @@ function moveFigure() {
       )
     ];
 
+    // Снова присваиваем класс, чтобы визуально отобразить фигуру на клетку ниже
     for (let i = 0; i < body.length; i++) {
       body[i].classList.add("figure");
     }

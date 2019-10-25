@@ -87,6 +87,16 @@ const figures = {
   }
 };
 const figuresNames = ["I", "J", "O", "L", "Z", "T", "S"];
+const figureRotate = {
+  I: {
+    1: [[0, 0], [-1, 0], [1, 0], [2, 0]],
+    2: [[0, 0], [0, -1], [0, 1], [0, 2]],
+    3: [[0, 0], [-1, 0], [1, 0], [2, 0]],
+    4: [[0, 0], [0, -1], [0, 1], [0, 2]]
+  }
+};
+
+let counter = 1;
 
 tetris.init();
 
@@ -96,7 +106,7 @@ let currentEl = createFigure(figures[name]);
 
 setInterval(function(e) {
   move();
-}, 2500);
+}, 500);
 
 window.addEventListener("keydown", e => {
   //  left
@@ -113,6 +123,48 @@ window.addEventListener("keydown", e => {
   }
   //  up
   if (e.keyCode === 38) {
+    /*
+    if (counter > 4) {
+      counter = 1;
+    }
+
+    currentEl.forEach(item => {
+      item.classList.remove("figure");
+    });
+
+    let rotCoords = figureRotate["I"][counter];
+
+    console.log(rotCoords);
+
+    currentEl = [
+      document.querySelector(
+        `[data-pos-x="${+currentEl[0].dataset.posX +
+          rotCoords[0][0]}"][data-pos-y="${+currentEl[0].dataset.posY +
+          rotCoords[0][1]}"]`
+      ),
+      document.querySelector(
+        `[data-pos-x="${+currentEl[1].dataset.posX +
+          rotCoords[1][0]}"][data-pos-y="${+currentEl[1].dataset.posY +
+          rotCoords[1][1]}"]`
+      ),
+      document.querySelector(
+        `[data-pos-x="${+currentEl[2].dataset.posX +
+          rotCoords[2][0]}"][data-pos-y="${+currentEl[2].dataset.posY +
+          rotCoords[2][1]}"]`
+      ),
+      document.querySelector(
+        `[data-pos-x="${+currentEl[3].dataset.posX +
+          rotCoords[3][0]}"][data-pos-y="${+currentEl[3].dataset.posY +
+          rotCoords[3][1]}"]`
+      )
+    ];
+
+    currentEl.forEach(item => {
+      item.classList.add("figure");
+    });
+
+    counter += 1;
+    */
   }
 });
 
@@ -275,6 +327,8 @@ function moveRight() {
     item.classList.add("figure");
   });
 }
+
+function rotateFigure() {}
 
 /*
 // Создает фигуру (случано генерирует её

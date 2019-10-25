@@ -98,6 +98,109 @@ setInterval(function(e) {
   move();
 }, 500);
 
+function moveLeft() {
+  for (let i = 0; i < currentEl.length; i++) {
+    if (
+      +currentEl[i].dataset.posX === 1 ||
+      document
+        .querySelector(
+          `[data-pos-x="${+currentEl[i].dataset.posX -
+            1}"][data-pos-y="${+currentEl[i].dataset.posY}"]`
+        )
+        .classList.contains("set")
+    ) {
+      return;
+    }
+  }
+
+  currentEl.forEach(item => {
+    item.classList.remove("figure");
+  });
+
+  currentEl = [
+    document.querySelector(
+      `[data-pos-x="${+currentEl[0].dataset.posX -
+        1}"][data-pos-y="${+currentEl[0].dataset.posY}"]`
+    ),
+    document.querySelector(
+      `[data-pos-x="${+currentEl[1].dataset.posX -
+        1}"][data-pos-y="${+currentEl[1].dataset.posY}"]`
+    ),
+    document.querySelector(
+      `[data-pos-x="${+currentEl[2].dataset.posX -
+        1}"][data-pos-y="${+currentEl[2].dataset.posY}"]`
+    ),
+    document.querySelector(
+      `[data-pos-x="${+currentEl[3].dataset.posX -
+        1}"][data-pos-y="${+currentEl[3].dataset.posY}"]`
+    )
+  ];
+
+  currentEl.forEach(item => {
+    item.classList.add("figure");
+  });
+}
+
+function moveRight() {
+  for (let i = 0; i < currentEl.length; i++) {
+    if (
+      +currentEl[i].dataset.posX === 10 ||
+      document
+        .querySelector(
+          `[data-pos-x="${+currentEl[i].dataset.posX +
+            1}"][data-pos-y="${+currentEl[i].dataset.posY}"]`
+        )
+        .classList.contains("set")
+    ) {
+      return;
+    }
+  }
+
+  currentEl.forEach(item => {
+    item.classList.remove("figure");
+  });
+
+  currentEl = [
+    document.querySelector(
+      `[data-pos-x="${+currentEl[0].dataset.posX +
+        1}"][data-pos-y="${+currentEl[0].dataset.posY}"]`
+    ),
+    document.querySelector(
+      `[data-pos-x="${+currentEl[1].dataset.posX +
+        1}"][data-pos-y="${+currentEl[1].dataset.posY}"]`
+    ),
+    document.querySelector(
+      `[data-pos-x="${+currentEl[2].dataset.posX +
+        1}"][data-pos-y="${+currentEl[2].dataset.posY}"]`
+    ),
+    document.querySelector(
+      `[data-pos-x="${+currentEl[3].dataset.posX +
+        1}"][data-pos-y="${+currentEl[3].dataset.posY}"]`
+    )
+  ];
+
+  currentEl.forEach(item => {
+    item.classList.add("figure");
+  });
+}
+
+window.addEventListener("keydown", e => {
+  //  left
+  if (e.keyCode === 37) {
+    moveLeft();
+  }
+  // right
+  if (e.keyCode === 39) {
+    moveRight();
+  }
+  //  down
+  if (e.keyCode === 40) {
+  }
+  //  up
+  if (e.keyCode === 38) {
+  }
+});
+
 function move() {
   for (let i = 0; i < currentEl.length; i++) {
     if (
@@ -111,8 +214,6 @@ function move() {
         .classList.contains("set")
     ) {
       flag = false;
-      currentEl[i].classList.remove("figure");
-      currentEl[i].classList.add("set");
     }
   }
 
@@ -142,14 +243,13 @@ function move() {
 
     currentEl.forEach(item => {
       item.classList.add("figure");
-
-      if (+item.dataset.posY === 1) {
-        flag = false;
-        item.classList.remove("figure");
-        item.classList.add("set");
-      }
     });
   } else {
+    currentEl.forEach(item => {
+      item.classList.remove("figure");
+      item.classList.add("set");
+    });
+
     name = randomFigure();
     currentEl = createFigure(figures[name]);
     flag = true;

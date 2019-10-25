@@ -41,11 +41,69 @@ const tetris = {
 
 tetris.init();
 
+// Фигуры
 
+const coords = {
+  x: 6,
+  y: 10
+};
 
+const figures = {
+  I: {
+    1: [0, 0],
+    2: [0, 1],
+    3: [0, 2],
+    4: [0, 3]
+  },
+  J: {
+    1: [0, 0],
+    2: [-1, 0],
+    3: [0, 1],
+    4: [0, 2]
+  },
+  O: {
+    1: [0, 0],
+    2: [1, 0],
+    3: [1, 1],
+    4: [0, 1]
+  },
+  L: {
+    1: [0, 0],
+    2: [1, 0],
+    3: [0, 1],
+    4: [0, 2]
+  },
+  Z: {
+    1: [0, 0],
+    2: [1, 0],
+    3: [0, 1],
+    4: [-1, 1]
+  },
+  T: {
+    1: [0, 0],
+    2: [1, 0],
+    3: [0, 1],
+    4: [-1, 0]
+  },
+  S: {
+    1: [0, 0],
+    2: [1, 1],
+    3: [0, 1],
+    4: [-1, 0]
+  }
+};
 
+createFigure(figures.I);
 
-
+function createFigure(obj) {
+  for (let key in obj) {
+    const arr = obj[key];
+    const test = document.querySelector(
+      `[data-pos-x="${coords.x + arr[0]}"][data-pos-y="${coords.y + arr[1]}"]`
+    );
+    test.classList.add("set");
+  }
+}
 
 /*
 // Создает фигуру (случано генерирует её

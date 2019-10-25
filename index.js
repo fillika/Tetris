@@ -170,14 +170,12 @@ const move = {
     }
   },
   getCoords: function(arr) {
-    let coordinates = [
+    return [
       [arr[0].dataset.posX, arr[0].dataset.posY],
       [arr[1].dataset.posX, arr[1].dataset.posY],
       [arr[2].dataset.posX, arr[2].dataset.posY],
       [arr[3].dataset.posX, arr[3].dataset.posY]
     ];
-
-    return coordinates;
   },
   getNewState: function(a) {
     let flag = true;

@@ -104,6 +104,8 @@ const createRandomFigure = {
   }
 };
 
+const game = {};
+
 tetris.init();
 
 let body = createRandomFigure.init();
@@ -118,12 +120,7 @@ function moveFigure() {
   let moveFlag = true;
 
   // Получаем координаты текущего местоположения фигуры (всех её частей)
-  let coordinates = [
-    [body[0].dataset.posX, body[0].dataset.posY],
-    [body[1].dataset.posX, body[1].dataset.posY],
-    [body[2].dataset.posX, body[2].dataset.posY],
-    [body[3].dataset.posX, body[3].dataset.posY]
-  ];
+  let coordinates = getCoords(body);
 
   // Проверка, коснулись ли мы дна или коснулись другой фигуры
   // Проверяя, есть ли класс Set
@@ -182,4 +179,70 @@ function moveFigure() {
   }
 }
 
-const game = {};
+function getCoords(arr) {
+  let coordinates = [
+    [arr[0].dataset.posX, arr[0].dataset.posY],
+    [arr[1].dataset.posX, arr[1].dataset.posY],
+    [arr[2].dataset.posX, arr[2].dataset.posY],
+    [arr[3].dataset.posX, arr[3].dataset.posY]
+  ];
+
+  return coordinates;
+}
+
+function getNewState(a) {
+  let flag = true;
+  let coordinates = getCoords(body);
+  let figureNew = [
+    document.querySelector(
+      `[data-pos-x="${+coordinates[0][0] + a}"][data-pos-y="${
+        coordinates[0][1]
+      }"]`
+    ),
+    document.querySelector(
+      `[data-pos-x="${+coordinates[1][0] + a}"][data-pos-y="${
+        coordinates[1][1]
+      }"]`
+    ),
+    document.querySelector(
+      `[data-pos-x="${+coordinates[2][0] + a}"][data-pos-y="${
+        coordinates[2][1]
+      }"]`
+    ),
+    document.querySelector(
+      `[data-pos-x="${+coordinates[3][0] + a}"][data-pos-y="${
+        coordinates[3][1]
+      }"]`
+    )
+  ];
+
+  figureNew.forEach((item, i) => {
+    if (!figureNew || figureNew[i].classList.contains("set")) {
+      flag = false;
+    }
+  });
+
+  if (flag) {
+    for (let i = 0; i < body.length; i++) {
+      body[i].classList.remove("figure");
+    }
+
+    body = figureNew;
+
+    for (let i = 0; i < body.length; i++) {
+      body[i].classList.add("figure");
+    }
+  }
+}
+
+window.addEventListener("keydown", e => {
+  if (e.keyCode === 37) {
+    getNewState(-1);
+  }
+  if (e.keyCode === 39) {
+    getNewState(+1);
+  }
+  if (e.keyCode === 40) {
+    moveFigure();
+  }
+});

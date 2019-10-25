@@ -88,14 +88,52 @@ const figures = {
 };
 const figuresNames = ["I", "J", "O", "L", "Z", "T", "S"];
 
+let flag = true;
 let name = randomFigure();
-console.log(name);
 
 tetris.init();
 
-createFigure(figures[name]);
+let currentEl = createFigure(figures[name]);
 
-function move() {}
+setInterval(function(e) {
+  move();
+}, 500);
+
+function move() {
+  if (flag) {
+    currentEl.forEach(item => {
+      item.classList.remove("figure");
+    });
+
+    currentEl = [
+      document.querySelector(
+        `[data-pos-x="${currentEl[0].dataset.posX}"][data-pos-y="${+currentEl[0]
+          .dataset.posY - 1}"]`
+      ),
+      document.querySelector(
+        `[data-pos-x="${currentEl[1].dataset.posX}"][data-pos-y="${+currentEl[1]
+          .dataset.posY - 1}"]`
+      ),
+      document.querySelector(
+        `[data-pos-x="${currentEl[2].dataset.posX}"][data-pos-y="${+currentEl[2]
+          .dataset.posY - 1}"]`
+      ),
+      document.querySelector(
+        `[data-pos-x="${currentEl[3].dataset.posX}"][data-pos-y="${+currentEl[3]
+          .dataset.posY - 1}"]`
+      )
+    ];
+
+    currentEl.forEach(item => {
+      item.classList.add("figure");
+
+      if (+item.dataset.posY === 1) {
+        flag = false;
+      }
+    });
+  } else {
+  }
+}
 
 function randomFigure() {
   const num = Math.round(Math.random() * (figuresNames.length - 1));
@@ -103,13 +141,17 @@ function randomFigure() {
 }
 
 function createFigure(obj) {
+  let container = [];
+
   for (let key in obj) {
     const arr = obj[key];
     const test = document.querySelector(
       `[data-pos-x="${coords.x + arr[0]}"][data-pos-y="${coords.y + arr[1]}"]`
     );
     test.classList.add("figure");
+    container.push(test);
   }
+  return container;
 }
 
 /*

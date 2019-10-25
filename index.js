@@ -45,9 +45,9 @@ const coords = {
 const figures = {
   I: {
     1: [0, 0],
-    2: [0, 1],
-    3: [0, 2],
-    4: [0, 3]
+    2: [0, -1],
+    3: [0, 1],
+    4: [0, 2]
   },
   J: {
     1: [0, 0],
@@ -96,7 +96,99 @@ let currentEl = createFigure(figures[name]);
 
 setInterval(function(e) {
   move();
-}, 500);
+}, 2500);
+
+window.addEventListener("keydown", e => {
+  //  left
+  if (e.keyCode === 37) {
+    moveLeft();
+  }
+  // right
+  if (e.keyCode === 39) {
+    moveRight();
+  }
+  //  down
+  if (e.keyCode === 40) {
+    move();
+  }
+  //  up
+  if (e.keyCode === 38) {
+  }
+});
+
+function move() {
+  for (let i = 0; i < currentEl.length; i++) {
+    if (
+      +currentEl[i].dataset.posY === 1 ||
+      document
+        .querySelector(
+          `[data-pos-x="${currentEl[i].dataset.posX}"][data-pos-y="${+currentEl[
+            i
+          ].dataset.posY - 1}"]`
+        )
+        .classList.contains("set")
+    ) {
+      flag = false;
+    }
+  }
+
+  if (flag) {
+    currentEl.forEach(item => {
+      item.classList.remove("figure");
+    });
+
+    currentEl = [
+      document.querySelector(
+        `[data-pos-x="${currentEl[0].dataset.posX}"][data-pos-y="${+currentEl[0]
+          .dataset.posY - 1}"]`
+      ),
+      document.querySelector(
+        `[data-pos-x="${currentEl[1].dataset.posX}"][data-pos-y="${+currentEl[1]
+          .dataset.posY - 1}"]`
+      ),
+      document.querySelector(
+        `[data-pos-x="${currentEl[2].dataset.posX}"][data-pos-y="${+currentEl[2]
+          .dataset.posY - 1}"]`
+      ),
+      document.querySelector(
+        `[data-pos-x="${currentEl[3].dataset.posX}"][data-pos-y="${+currentEl[3]
+          .dataset.posY - 1}"]`
+      )
+    ];
+
+    currentEl.forEach(item => {
+      item.classList.add("figure");
+    });
+  } else {
+    currentEl.forEach(item => {
+      item.classList.remove("figure");
+      item.classList.add("set");
+    });
+
+    name = randomFigure();
+    currentEl = createFigure(figures[name]);
+    flag = true;
+  }
+}
+
+function randomFigure() {
+  const num = Math.round(Math.random() * (figuresNames.length - 1));
+  return figuresNames[num];
+}
+
+function createFigure(obj) {
+  let container = [];
+
+  for (let key in obj) {
+    const arr = obj[key];
+    const test = document.querySelector(
+      `[data-pos-x="${coords.x + arr[0]}"][data-pos-y="${coords.y + arr[1]}"]`
+    );
+    test.classList.add("figure");
+    container.push(test);
+  }
+  return container;
+}
 
 function moveLeft() {
   for (let i = 0; i < currentEl.length; i++) {
@@ -182,97 +274,6 @@ function moveRight() {
   currentEl.forEach(item => {
     item.classList.add("figure");
   });
-}
-
-window.addEventListener("keydown", e => {
-  //  left
-  if (e.keyCode === 37) {
-    moveLeft();
-  }
-  // right
-  if (e.keyCode === 39) {
-    moveRight();
-  }
-  //  down
-  if (e.keyCode === 40) {
-  }
-  //  up
-  if (e.keyCode === 38) {
-  }
-});
-
-function move() {
-  for (let i = 0; i < currentEl.length; i++) {
-    if (
-      +currentEl[i].dataset.posY === 1 ||
-      document
-        .querySelector(
-          `[data-pos-x="${currentEl[i].dataset.posX}"][data-pos-y="${+currentEl[
-            i
-          ].dataset.posY - 1}"]`
-        )
-        .classList.contains("set")
-    ) {
-      flag = false;
-    }
-  }
-
-  if (flag) {
-    currentEl.forEach(item => {
-      item.classList.remove("figure");
-    });
-
-    currentEl = [
-      document.querySelector(
-        `[data-pos-x="${currentEl[0].dataset.posX}"][data-pos-y="${+currentEl[0]
-          .dataset.posY - 1}"]`
-      ),
-      document.querySelector(
-        `[data-pos-x="${currentEl[1].dataset.posX}"][data-pos-y="${+currentEl[1]
-          .dataset.posY - 1}"]`
-      ),
-      document.querySelector(
-        `[data-pos-x="${currentEl[2].dataset.posX}"][data-pos-y="${+currentEl[2]
-          .dataset.posY - 1}"]`
-      ),
-      document.querySelector(
-        `[data-pos-x="${currentEl[3].dataset.posX}"][data-pos-y="${+currentEl[3]
-          .dataset.posY - 1}"]`
-      )
-    ];
-
-    currentEl.forEach(item => {
-      item.classList.add("figure");
-    });
-  } else {
-    currentEl.forEach(item => {
-      item.classList.remove("figure");
-      item.classList.add("set");
-    });
-
-    name = randomFigure();
-    currentEl = createFigure(figures[name]);
-    flag = true;
-  }
-}
-
-function randomFigure() {
-  const num = Math.round(Math.random() * (figuresNames.length - 1));
-  return figuresNames[num];
-}
-
-function createFigure(obj) {
-  let container = [];
-
-  for (let key in obj) {
-    const arr = obj[key];
-    const test = document.querySelector(
-      `[data-pos-x="${coords.x + arr[0]}"][data-pos-y="${coords.y + arr[1]}"]`
-    );
-    test.classList.add("figure");
-    container.push(test);
-  }
-  return container;
 }
 
 /*

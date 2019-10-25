@@ -38,16 +38,10 @@ const tetris = {
     }
   }
 };
-
-tetris.init();
-
-// Фигуры
-
 const coords = {
   x: 6,
-  y: 10
+  y: 11
 };
-
 const figures = {
   I: {
     1: [0, 0],
@@ -92,8 +86,21 @@ const figures = {
     4: [-1, 0]
   }
 };
+const figuresNames = ["I", "J", "O", "L", "Z", "T", "S"];
 
-createFigure(figures.I);
+let name = randomFigure();
+console.log(name);
+
+tetris.init();
+
+createFigure(figures[name]);
+
+function move() {}
+
+function randomFigure() {
+  const num = Math.round(Math.random() * (figuresNames.length - 1));
+  return figuresNames[num];
+}
 
 function createFigure(obj) {
   for (let key in obj) {
@@ -101,7 +108,7 @@ function createFigure(obj) {
     const test = document.querySelector(
       `[data-pos-x="${coords.x + arr[0]}"][data-pos-y="${coords.y + arr[1]}"]`
     );
-    test.classList.add("set");
+    test.classList.add("figure");
   }
 }
 

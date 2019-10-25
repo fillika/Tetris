@@ -1,6 +1,7 @@
 const mainTetris = document.createElement("div");
 const main = document.querySelector(".main");
 
+// Отвечает за создание тетриса
 const tetris = {
   init: function() {
     this.createTetris();
@@ -37,7 +38,7 @@ const tetris = {
     }
   }
 };
-
+// Создает фигуру (случано генерирует её
 const createRandomFigure = {
   init: function() {
     return this.createFigure();
@@ -103,146 +104,146 @@ const createRandomFigure = {
     return this.mainArr[num][y][1];
   }
 };
+// Все, что связано с движением фигур (вниз, влево, вправо)
+const move = {
+  moveFigure: function() {
+    let moveFlag = true;
+
+    // Получаем координаты текущего местоположения фигуры (всех её частей)
+    let coordinates = this.getCoords(body);
+
+    // Проверка, коснулись ли мы дна или коснулись другой фигуры
+    // Проверяя, есть ли класс Set
+    for (let i = 0; i < coordinates.length; i++) {
+      if (
+        coordinates[i][1] == 1 ||
+        document
+          .querySelector(
+            `[data-pos-x="${coordinates[i][0]}"][data-pos-y="${coordinates[
+              i
+            ][1] - 1}"]`
+          )
+          .classList.contains("set")
+      ) {
+        moveFlag = false;
+        break;
+      }
+    }
+
+    if (moveFlag) {
+      // Удаляем визуально
+      for (let i = 0; i < body.length; i++) {
+        body[i].classList.remove("figure");
+      }
+
+      // Присваиваем новые координаты по Y (как бы создаем иллюзию движения)
+      body = [
+        document.querySelector(
+          `[data-pos-x="${coordinates[0][0]}"][data-pos-y="${coordinates[0][1] -
+            1}"]`
+        ),
+        document.querySelector(
+          `[data-pos-x="${coordinates[1][0]}"][data-pos-y="${coordinates[1][1] -
+            1}"]`
+        ),
+        document.querySelector(
+          `[data-pos-x="${coordinates[2][0]}"][data-pos-y="${coordinates[2][1] -
+            1}"]`
+        ),
+        document.querySelector(
+          `[data-pos-x="${coordinates[3][0]}"][data-pos-y="${coordinates[3][1] -
+            1}"]`
+        )
+      ];
+
+      // Снова присваиваем класс, чтобы визуально отобразить фигуру на клетку ниже
+      for (let i = 0; i < body.length; i++) {
+        body[i].classList.add("figure");
+      }
+    } else {
+      for (let i = 0; i < body.length; i++) {
+        body[i].classList.remove("figure");
+        body[i].classList.add("set");
+      }
+
+      body = createRandomFigure.init();
+    }
+  },
+  getCoords: function(arr) {
+    let coordinates = [
+      [arr[0].dataset.posX, arr[0].dataset.posY],
+      [arr[1].dataset.posX, arr[1].dataset.posY],
+      [arr[2].dataset.posX, arr[2].dataset.posY],
+      [arr[3].dataset.posX, arr[3].dataset.posY]
+    ];
+
+    return coordinates;
+  },
+  getNewState: function(a) {
+    let flag = true;
+    let coordinates = this.getCoords(body);
+    let figureNew = [
+      document.querySelector(
+        `[data-pos-x="${+coordinates[0][0] + a}"][data-pos-y="${
+          coordinates[0][1]
+        }"]`
+      ),
+      document.querySelector(
+        `[data-pos-x="${+coordinates[1][0] + a}"][data-pos-y="${
+          coordinates[1][1]
+        }"]`
+      ),
+      document.querySelector(
+        `[data-pos-x="${+coordinates[2][0] + a}"][data-pos-y="${
+          coordinates[2][1]
+        }"]`
+      ),
+      document.querySelector(
+        `[data-pos-x="${+coordinates[3][0] + a}"][data-pos-y="${
+          coordinates[3][1]
+        }"]`
+      )
+    ];
+
+    figureNew.forEach((item, i) => {
+      if (!figureNew || figureNew[i].classList.contains("set")) {
+        flag = false;
+      }
+    });
+
+    if (flag) {
+      for (let i = 0; i < body.length; i++) {
+        body[i].classList.remove("figure");
+      }
+
+      body = figureNew;
+
+      for (let i = 0; i < body.length; i++) {
+        body[i].classList.add("figure");
+      }
+    }
+  }
+};
 
 const game = {};
 
 tetris.init();
-
 let body = createRandomFigure.init();
 
-moveFigure();
+move.moveFigure();
 
 let interval = setInterval(() => {
-  moveFigure();
+  move.moveFigure();
 }, 300);
-
-function moveFigure() {
-  let moveFlag = true;
-
-  // Получаем координаты текущего местоположения фигуры (всех её частей)
-  let coordinates = getCoords(body);
-
-  // Проверка, коснулись ли мы дна или коснулись другой фигуры
-  // Проверяя, есть ли класс Set
-  for (let i = 0; i < coordinates.length; i++) {
-    if (
-      coordinates[i][1] == 1 ||
-      document
-        .querySelector(
-          `[data-pos-x="${coordinates[i][0]}"][data-pos-y="${coordinates[i][1] -
-            1}"]`
-        )
-        .classList.contains("set")
-    ) {
-      moveFlag = false;
-      break;
-    }
-  }
-
-  if (moveFlag) {
-    // Удаляем визуально
-    for (let i = 0; i < body.length; i++) {
-      body[i].classList.remove("figure");
-    }
-
-    // Присваиваем новые координаты по Y (как бы создаем иллюзию движения)
-    body = [
-      document.querySelector(
-        `[data-pos-x="${coordinates[0][0]}"][data-pos-y="${coordinates[0][1] -
-          1}"]`
-      ),
-      document.querySelector(
-        `[data-pos-x="${coordinates[1][0]}"][data-pos-y="${coordinates[1][1] -
-          1}"]`
-      ),
-      document.querySelector(
-        `[data-pos-x="${coordinates[2][0]}"][data-pos-y="${coordinates[2][1] -
-          1}"]`
-      ),
-      document.querySelector(
-        `[data-pos-x="${coordinates[3][0]}"][data-pos-y="${coordinates[3][1] -
-          1}"]`
-      )
-    ];
-
-    // Снова присваиваем класс, чтобы визуально отобразить фигуру на клетку ниже
-    for (let i = 0; i < body.length; i++) {
-      body[i].classList.add("figure");
-    }
-  } else {
-    for (let i = 0; i < body.length; i++) {
-      body[i].classList.remove("figure");
-      body[i].classList.add("set");
-    }
-
-    body = createRandomFigure.init();
-  }
-}
-
-function getCoords(arr) {
-  let coordinates = [
-    [arr[0].dataset.posX, arr[0].dataset.posY],
-    [arr[1].dataset.posX, arr[1].dataset.posY],
-    [arr[2].dataset.posX, arr[2].dataset.posY],
-    [arr[3].dataset.posX, arr[3].dataset.posY]
-  ];
-
-  return coordinates;
-}
-
-function getNewState(a) {
-  let flag = true;
-  let coordinates = getCoords(body);
-  let figureNew = [
-    document.querySelector(
-      `[data-pos-x="${+coordinates[0][0] + a}"][data-pos-y="${
-        coordinates[0][1]
-      }"]`
-    ),
-    document.querySelector(
-      `[data-pos-x="${+coordinates[1][0] + a}"][data-pos-y="${
-        coordinates[1][1]
-      }"]`
-    ),
-    document.querySelector(
-      `[data-pos-x="${+coordinates[2][0] + a}"][data-pos-y="${
-        coordinates[2][1]
-      }"]`
-    ),
-    document.querySelector(
-      `[data-pos-x="${+coordinates[3][0] + a}"][data-pos-y="${
-        coordinates[3][1]
-      }"]`
-    )
-  ];
-
-  figureNew.forEach((item, i) => {
-    if (!figureNew || figureNew[i].classList.contains("set")) {
-      flag = false;
-    }
-  });
-
-  if (flag) {
-    for (let i = 0; i < body.length; i++) {
-      body[i].classList.remove("figure");
-    }
-
-    body = figureNew;
-
-    for (let i = 0; i < body.length; i++) {
-      body[i].classList.add("figure");
-    }
-  }
-}
 
 window.addEventListener("keydown", e => {
   if (e.keyCode === 37) {
-    getNewState(-1);
+    move.getNewState(-1);
   }
   if (e.keyCode === 39) {
-    getNewState(+1);
+    move.getNewState(+1);
   }
   if (e.keyCode === 40) {
-    moveFigure();
+    move.moveFigure();
   }
 });

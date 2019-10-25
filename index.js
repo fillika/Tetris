@@ -40,7 +40,7 @@ const tetris = {
 };
 const coords = {
   x: 6,
-  y: 11
+  y: 15
 };
 const figures = {
   I: {
@@ -88,11 +88,10 @@ const figures = {
 };
 const figuresNames = ["I", "J", "O", "L", "Z", "T", "S"];
 
-let flag = true;
-let name = randomFigure();
-
 tetris.init();
 
+let flag = true;
+let name = randomFigure();
 let currentEl = createFigure(figures[name]);
 
 setInterval(function(e) {
@@ -100,6 +99,23 @@ setInterval(function(e) {
 }, 500);
 
 function move() {
+  for (let i = 0; i < currentEl.length; i++) {
+    if (
+      +currentEl[i].dataset.posY === 1 ||
+      document
+        .querySelector(
+          `[data-pos-x="${currentEl[i].dataset.posX}"][data-pos-y="${+currentEl[
+            i
+          ].dataset.posY - 1}"]`
+        )
+        .classList.contains("set")
+    ) {
+      flag = false;
+      currentEl[i].classList.remove("figure");
+      currentEl[i].classList.add("set");
+    }
+  }
+
   if (flag) {
     currentEl.forEach(item => {
       item.classList.remove("figure");
@@ -129,9 +145,14 @@ function move() {
 
       if (+item.dataset.posY === 1) {
         flag = false;
+        item.classList.remove("figure");
+        item.classList.add("set");
       }
     });
   } else {
+    name = randomFigure();
+    currentEl = createFigure(figures[name]);
+    flag = true;
   }
 }
 

@@ -117,6 +117,12 @@ const figureRotate = {
     2: [[0, 0], [-1, -1], [1, -1], [2, 0]],
     3: [[0, 0], [1, 1], [-1, 1], [-2, 0]],
     4: [[0, 0], [-1, -1], [1, -1], [2, 0]]
+  },
+  T: {
+    1: [[0, 0], [-1, 1], [-1, -1], [1, -1]],
+    2: [[0, 0], [-1, -1], [1, -1], [1, 1]],
+    3: [[0, 0], [1, -1], [1, 1], [-1, 1]],
+    4: [[0, 0], [1, 1], [-1, 1], [-1, -1]]
   }
 };
 
@@ -125,7 +131,7 @@ let counter = 1;
 tetris.init();
 
 let flag = true;
-let name = "Z";
+let name = "T";
 let currentEl = createFigure(figures[name]);
 
 setInterval(function(e) {
@@ -153,7 +159,7 @@ window.addEventListener("keydown", e => {
 
 function reload() {
   // name = randomFigure();
-  name = "Z";
+  name = "T";
   currentEl = createFigure(figures[name]);
   counter = 1;
   flag = true;

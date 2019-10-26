@@ -413,10 +413,29 @@ function checkLine() {
       item.forEach(it => {
         it.classList.remove("set");
       });
+
+      moveAllOnY();
     }
   });
 }
 
 function test(item) {
   return item.classList.contains("set");
+}
+
+function moveAllOnY() {
+  const allCells = document.querySelectorAll(".excel.set");
+
+  allCells.forEach(item => {
+    const y = +item.dataset.posY;
+
+    item.classList.remove("set");
+
+    item = document.querySelector(
+      `[data-pos-x="${item.dataset.posX}"][data-pos-y="${item.dataset.posY -
+        1}"]`
+    );
+
+    item.classList.add("set");
+  });
 }

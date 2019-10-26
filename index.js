@@ -86,7 +86,6 @@ const figures = {
     4: [-1, 0]
   }
 };
-const figuresNames = ["I", "J", "O", "L", "Z", "T", "S"];
 const figureRotate = {
   I: {
     1: [[0, 0], [-1, 1], [1, -1], [2, -2]],
@@ -131,6 +130,8 @@ const figureRotate = {
     4: [[0, 0], [2, 0], [1, 1], [-1, 1]]
   }
 };
+const figuresNames = ["I", "J", "O", "L", "Z", "T", "S"];
+const scoreField = document.querySelector(".score__count");
 
 let counter = 1;
 
@@ -164,6 +165,8 @@ window.addEventListener("keydown", e => {
 });
 
 function reload() {
+  checkLine();
+
   name = randomFigure();
   currentEl = createFigure(figures[name]);
   counter = 1;
@@ -386,6 +389,28 @@ function rotateFigure() {
   });
 
   counter += 1;
+}
+
+function checkLine() {
+  const line1 = [];
+  for (let i = 1; i < 11; i++) {
+    const item = document.querySelector(
+      `[data-pos-x="${i}"][data-pos-y="${1}"]`
+    );
+    line1.push(item);
+  }
+
+  const check = line1.every(test);
+  
+  if (check) {
+    line1.forEach(item => {
+      item.classList.remove('set')
+    })
+  }
+}
+
+function test(item) {
+  return item.classList.contains("set");
 }
 
 /*

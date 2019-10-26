@@ -89,10 +89,10 @@ const figures = {
 const figuresNames = ["I", "J", "O", "L", "Z", "T", "S"];
 const figureRotate = {
   I: {
-    1: [[0, 0], [-1, 0], [1, 0], [2, 0]],
-    2: [[0, 0], [0, -1], [0, 1], [0, 2]],
-    3: [[0, 0], [-1, 0], [1, 0], [2, 0]],
-    4: [[0, 0], [0, -1], [0, 1], [0, 2]]
+    1: [[0, 0], [-1, 1], [1, -1], [2, -2]],
+    2: [[0, 0], [1, -1], [-1, 1], [-2, 2]],
+    3: [[0, 0], [-1, 1], [1, -1], [2, -2]],
+    4: [[0, 0], [1, -1], [-1, 1], [-2, 2]]
   }
 };
 
@@ -101,7 +101,7 @@ let counter = 1;
 tetris.init();
 
 let flag = true;
-let name = randomFigure();
+let name = "I";
 let currentEl = createFigure(figures[name]);
 
 setInterval(function(e) {
@@ -123,7 +123,6 @@ window.addEventListener("keydown", e => {
   }
   //  up
   if (e.keyCode === 38) {
-    /*
     if (counter > 4) {
       counter = 1;
     }
@@ -164,7 +163,6 @@ window.addEventListener("keydown", e => {
     });
 
     counter += 1;
-    */
   }
 });
 
@@ -217,8 +215,10 @@ function move() {
       item.classList.add("set");
     });
 
-    name = randomFigure();
+    // name = randomFigure();
+    name = "I";
     currentEl = createFigure(figures[name]);
+    counter = 1;
     flag = true;
   }
 }

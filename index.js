@@ -394,6 +394,7 @@ function rotateFigure() {
 function checkLine() {
   let lineArr = [];
   let lineOne = [];
+  let delLineArr = [];
 
   for (let y = 1; y < 15; y++) {
     for (let i = 1; i < 11; i++) {
@@ -410,13 +411,17 @@ function checkLine() {
     const check = lineArr[i].every(test);
 
     if (check) {
-      lineArr[i].forEach(it => {
-        it.classList.remove("set");
-      });
-
-      moveAllOnY();
+      delLineArr.push(lineArr[i]);
     }
   }
+
+  const lineNumber = delLineArr.length;
+
+  delLineArr.forEach(arr => {
+    arr.forEach(item => {
+      item.classList.remove("set");
+    });
+  });
 }
 
 function test(item) {

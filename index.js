@@ -395,6 +395,7 @@ function checkLine() {
   let lineArr = [];
   let lineOne = [];
   let delLineArr = [];
+  let numberOfLineForDel = 0;
 
   for (let y = 1; y < 15; y++) {
     for (let i = 1; i < 11; i++) {
@@ -415,7 +416,12 @@ function checkLine() {
     }
   }
 
-  const lineNumber = delLineArr.length;
+  if (delLineArr[0]) {
+    // Номер линии с которой стоит смещать вниз все клетки
+    numberOfLineForDel = delLineArr[delLineArr.length - 1][0].dataset.posY;
+  }
+
+  const lineNumber = delLineArr.length; // Кол-во линий для удаления
 
   delLineArr.forEach(arr => {
     arr.forEach(item => {
@@ -423,17 +429,21 @@ function checkLine() {
     });
   });
 
-  moveAllOnY(lineNumber)
+  moveAllOnY(lineNumber, numberOfLineForDel);
 }
 
 function test(item) {
   return item.classList.contains("set");
 }
 
-function moveAllOnY(number) {
+function moveAllOnY(number, numberOfLineForDel) {
   let allCells = document.querySelectorAll(".excel.set");
   allCells = Array.from(allCells);
   allCells = allCells.reverse();
+
+  allCells = allCells.filter(item => item.dataset.posY > numberOfLineForDel);
+
+  // console.log(allCells);
 
   allCells.forEach(item => {
     const y = +item.dataset.posY - number;

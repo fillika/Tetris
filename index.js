@@ -93,6 +93,12 @@ const figureRotate = {
     2: [[0, 0], [1, -1], [-1, 1], [-2, 2]],
     3: [[0, 0], [-1, 1], [1, -1], [2, -2]],
     4: [[0, 0], [1, -1], [-1, 1], [-2, 2]]
+  },
+  J: {
+    1: [[0, 0], [1, 1], [1, -1], [2, -2]],
+    2: [[0, 0], [1, -1], [-1, -1], [-2, -2]],
+    3: [[0, 0], [-1, -1], [-1, 1], [-2, 2]],
+    4: [[0, 0], [-1, 1], [1, 1], [2, 2]]
   }
 };
 
@@ -101,7 +107,7 @@ let counter = 1;
 tetris.init();
 
 let flag = true;
-let name = "I";
+let name = "J";
 let currentEl = createFigure(figures[name]);
 
 setInterval(function(e) {
@@ -177,7 +183,7 @@ function move() {
     });
 
     // name = randomFigure();
-    name = "I";
+    name = "J";
     currentEl = createFigure(figures[name]);
     counter = 1;
     flag = true;
@@ -294,7 +300,7 @@ function rotateFigure() {
     counter = 1;
   }
 
-  let rotCoords = figureRotate["I"][counter];
+  let rotCoords = figureRotate[name][counter];
 
   let arr = [];
 

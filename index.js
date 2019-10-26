@@ -133,6 +133,8 @@ const figureRotate = {
 const figuresNames = ["I", "J", "O", "L", "Z", "T", "S"];
 const scoreField = document.querySelector(".score__count");
 
+let score = 0;
+
 let counter = 1;
 
 tetris.init();
@@ -429,6 +431,7 @@ function checkLine() {
     });
   });
 
+  getScore(lineNumber);
   moveAllOnY(lineNumber, numberOfLineForDel);
 }
 
@@ -467,4 +470,10 @@ function moveAllOnY(number, numberOfLineForDel) {
 
     item.classList.add("set");
   });
+}
+
+function getScore(lineNumber) {
+  let result = 100 * lineNumber;
+  score = score + result;
+  scoreField.textContent = score;
 }

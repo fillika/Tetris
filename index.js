@@ -422,19 +422,21 @@ function checkLine() {
       item.classList.remove("set");
     });
   });
+
+  moveAllOnY(lineNumber)
 }
 
 function test(item) {
   return item.classList.contains("set");
 }
 
-function moveAllOnY() {
+function moveAllOnY(number) {
   let allCells = document.querySelectorAll(".excel.set");
   allCells = Array.from(allCells);
   allCells = allCells.reverse();
 
   allCells.forEach(item => {
-    const y = +item.dataset.posY - 1;
+    const y = +item.dataset.posY - number;
 
     if (y === 0) {
       return;

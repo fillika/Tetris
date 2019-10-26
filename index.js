@@ -406,17 +406,17 @@ function checkLine() {
     lineOne = [];
   }
 
-  lineArr.forEach(item => {
-    const check = item.every(test);
+  for (let i = 0; i < lineArr.length; i++) {
+    const check = lineArr[i].every(test);
 
     if (check) {
-      item.forEach(it => {
+      lineArr[i].forEach(it => {
         it.classList.remove("set");
       });
 
       moveAllOnY();
     }
-  });
+  }
 }
 
 function test(item) {
@@ -427,15 +427,19 @@ function moveAllOnY() {
   const allCells = document.querySelectorAll(".excel.set");
 
   allCells.forEach(item => {
-    const y = +item.dataset.posY;
+    const y = +item.dataset.posY - 1;
+
+    if (y === 0) {
+      return;
+    }
 
     item.classList.remove("set");
 
     item = document.querySelector(
-      `[data-pos-x="${item.dataset.posX}"][data-pos-y="${item.dataset.posY -
-        1}"]`
+      `[data-pos-x="${item.dataset.posX}"][data-pos-y="${y}"]`
     );
 
     item.classList.add("set");
+    checkLine();
   });
 }

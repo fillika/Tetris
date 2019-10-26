@@ -470,3 +470,5 @@ function getScore(lineNumber) {
   score = score + result;
   scoreField.textContent = score;
 }
+
+// TODO: Добавить функции начала и конца игры

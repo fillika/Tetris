@@ -123,46 +123,7 @@ window.addEventListener("keydown", e => {
   }
   //  up
   if (e.keyCode === 38) {
-    if (counter > 4) {
-      counter = 1;
-    }
-
-    currentEl.forEach(item => {
-      item.classList.remove("figure");
-    });
-
-    let rotCoords = figureRotate["I"][counter];
-
-    console.log(rotCoords);
-
-    currentEl = [
-      document.querySelector(
-        `[data-pos-x="${+currentEl[0].dataset.posX +
-          rotCoords[0][0]}"][data-pos-y="${+currentEl[0].dataset.posY +
-          rotCoords[0][1]}"]`
-      ),
-      document.querySelector(
-        `[data-pos-x="${+currentEl[1].dataset.posX +
-          rotCoords[1][0]}"][data-pos-y="${+currentEl[1].dataset.posY +
-          rotCoords[1][1]}"]`
-      ),
-      document.querySelector(
-        `[data-pos-x="${+currentEl[2].dataset.posX +
-          rotCoords[2][0]}"][data-pos-y="${+currentEl[2].dataset.posY +
-          rotCoords[2][1]}"]`
-      ),
-      document.querySelector(
-        `[data-pos-x="${+currentEl[3].dataset.posX +
-          rotCoords[3][0]}"][data-pos-y="${+currentEl[3].dataset.posY +
-          rotCoords[3][1]}"]`
-      )
-    ];
-
-    currentEl.forEach(item => {
-      item.classList.add("figure");
-    });
-
-    counter += 1;
+    rotateFigure();
   }
 });
 
@@ -328,7 +289,65 @@ function moveRight() {
   });
 }
 
-function rotateFigure() {}
+function rotateFigure() {
+  if (counter > 4) {
+    counter = 1;
+  }
+
+  let rotCoords = figureRotate["I"][counter];
+
+  let arr = [];
+
+  let x1 = +currentEl[0].dataset.posX + rotCoords[0][0],
+    x2 = +currentEl[1].dataset.posX + rotCoords[1][0],
+    x3 = +currentEl[2].dataset.posX + rotCoords[2][0],
+    x4 = +currentEl[3].dataset.posX + rotCoords[3][0],
+    y1 = +currentEl[0].dataset.posY + rotCoords[0][1],
+    y2 = +currentEl[1].dataset.posY + rotCoords[1][1],
+    y3 = +currentEl[2].dataset.posY + rotCoords[2][1],
+    y4 = +currentEl[3].dataset.posY + rotCoords[3][1];
+
+  arr.push(x1, x2, x3, x4);
+
+  const check = arr.some(item => {
+    return item === 0 || item === 11;
+  });
+
+  const cell1 = document.querySelector(
+    `[data-pos-x="${x1}"][data-pos-y="${y1}"]`
+  );
+  const cell2 = document.querySelector(
+    `[data-pos-x="${x2}"][data-pos-y="${y2}"]`
+  );
+  const cell3 = document.querySelector(
+    `[data-pos-x="${x3}"][data-pos-y="${y3}"]`
+  );
+  const cell4 = document.querySelector(
+    `[data-pos-x="${x4}"][data-pos-y="${y4}"]`
+  );
+
+  if (
+    check ||
+    cell1.classList.contains("set") ||
+    cell2.classList.contains("set") ||
+    cell3.classList.contains("set") ||
+    cell4.classList.contains("set")
+  ) {
+    return;
+  }
+
+  currentEl.forEach(item => {
+    item.classList.remove("figure");
+  });
+
+  currentEl = [cell1, cell2, cell3, cell4];
+
+  currentEl.forEach(item => {
+    item.classList.add("figure");
+  });
+
+  counter += 1;
+}
 
 /*
 // Создает фигуру (случано генерирует её

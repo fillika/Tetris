@@ -99,6 +99,18 @@ const figureRotate = {
     2: [[0, 0], [1, -1], [-1, -1], [-2, -2]],
     3: [[0, 0], [-1, -1], [-1, 1], [-2, 2]],
     4: [[0, 0], [-1, 1], [1, 1], [2, 2]]
+  },
+  O: {
+    1: [[0, 0], [0, 0], [0, 0], [0, 0]],
+    2: [[0, 0], [0, 0], [0, 0], [0, 0]],
+    3: [[0, 0], [0, 0], [0, 0], [0, 0]],
+    4: [[0, 0], [0, 0], [0, 0], [0, 0]]
+  },
+  L: {
+    1: [[0, 0], [-1, -1], [1, -1], [2, -2]],
+    2: [[0, 0], [-1, 1], [-1, -1], [-2, -2]],
+    3: [[0, 0], [1, 1], [-1, 1], [-2, 2]],
+    4: [[0, 0], [1, -1], [1, 1], [2, 2]]
   }
 };
 
@@ -107,7 +119,7 @@ let counter = 1;
 tetris.init();
 
 let flag = true;
-let name = "J";
+let name = "L";
 let currentEl = createFigure(figures[name]);
 
 setInterval(function(e) {
@@ -132,6 +144,14 @@ window.addEventListener("keydown", e => {
     rotateFigure();
   }
 });
+
+function reload() {
+  // name = randomFigure();
+  name = "L";
+  currentEl = createFigure(figures[name]);
+  counter = 1;
+  flag = true;
+}
 
 function move() {
   for (let i = 0; i < currentEl.length; i++) {
@@ -182,11 +202,7 @@ function move() {
       item.classList.add("set");
     });
 
-    // name = randomFigure();
-    name = "J";
-    currentEl = createFigure(figures[name]);
-    counter = 1;
-    flag = true;
+    reload();
   }
 }
 

@@ -424,12 +424,21 @@ function test(item) {
 }
 
 function moveAllOnY() {
-  const allCells = document.querySelectorAll(".excel.set");
+  let allCells = document.querySelectorAll(".excel.set");
+  allCells = Array.from(allCells);
+  allCells = allCells.reverse();
 
   allCells.forEach(item => {
     const y = +item.dataset.posY - 1;
 
     if (y === 0) {
+      return;
+    }
+    if (
+      document
+        .querySelector(`[data-pos-x="${item.dataset.posX}"][data-pos-y="${y}"]`)
+        .classList.contains("set")
+    ) {
       return;
     }
 
@@ -440,6 +449,5 @@ function moveAllOnY() {
     );
 
     item.classList.add("set");
-    checkLine();
   });
 }

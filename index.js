@@ -454,13 +454,6 @@ function moveAllOnY(number, numberOfLineForDel) {
     if (y === 0) {
       return;
     }
-    if (
-      document
-        .querySelector(`[data-pos-x="${item.dataset.posX}"][data-pos-y="${y}"]`)
-        .classList.contains("set")
-    ) {
-      return;
-    }
 
     item.classList.remove("set");
 
